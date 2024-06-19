@@ -1,0 +1,24 @@
+services:
+    web:
+        build: './docker-build/php/'
+        ports:
+            - "8002:443"
+        volumes:
+            - .:/var/www/ws_places
+        links:
+            - db:db
+    db:
+        image: mysql:8.3
+        build: './docker-build/mysql/'
+        volumes:
+            - ~/.docker/mysql2:/var/lib/mysql
+        ports:
+            - "3022:3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD=StevenAdmin
+    myadmin:
+        image: phpmyadmin/phpmyadmin
+        ports:
+            - "8072:80"
+        links:
+            - db:db
